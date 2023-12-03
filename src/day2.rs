@@ -1,17 +1,14 @@
-use std::{fs::File, io::BufReader, io::BufRead};
 use regex::Regex;
+use super::file_reader;
 
 const RED_CUBES_COUNT: u32 = 12;
 const GREEN_CUBES_COUNT: u32 = 13;
 const BLUE_CUBES_COUNT: u32 = 14;
 
 pub fn run() -> std::io::Result<u32> {
-    let file = File::open("inputs/day2_input.txt").map_err(|err| panic!("File not found: {err}") ).unwrap();
-    let mut reader = BufReader::new(file);
-    let mut buffer = String::new();
     let mut possible_games: Vec<u32> = vec![];
-    while reader.read_line(&mut buffer)? > 0 {
-        let game_and_data: Vec<&str> = buffer.split(':').collect();
+    let _ = file_reader::lines("inputs/day2_input.txt", |line| {
+        let game_and_data: Vec<&str> = line.split(':').collect();
         let game_metadata = game_and_data[0];
         let data = game_and_data[1];
         let sub_games: Vec<&str> = data.split(';').collect();
@@ -59,10 +56,7 @@ pub fn run() -> std::io::Result<u32> {
             let game_number = (game_metadata.split(' ').collect::<Vec<&str>>())[1].parse::<u32>().unwrap();
             possible_games.push(game_number);
         }
-
-
-        buffer.clear();
-    }
+    });
 
     let result = possible_games.iter().sum::<u32>();
 
