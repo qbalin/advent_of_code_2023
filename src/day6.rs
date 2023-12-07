@@ -1,6 +1,3 @@
-use super::file_reader;
-use std::collections::HashSet;
-
 fn margin(distance: f64, time: f64) -> u64 {
     let min_press_time = ((time - (time.powf(2.0) - 4.0 * distance).sqrt()) / 2.0).ceil();
     let max_press_time = ((time + (time.powf(2.0) - 4.0 * distance).sqrt()) / 2.0).floor();
